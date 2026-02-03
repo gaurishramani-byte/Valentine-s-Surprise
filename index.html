@@ -120,7 +120,7 @@
 <div id="message"></div>
 
 <div id="loveScreen">
-    I LOVE YOU<br>ANII 💖<br> I have a sweet song for you bacha. <br>pura sunke jana babbyyy
+    I LOVE YOU<br>ANII 💖<br>
     <div style="font-size:1.2rem;margin-top:20px;">
         Forever my favorite person 🌸
     </div>
@@ -147,39 +147,34 @@
 
     noBtn.addEventListener("click", () => {
 
-        // Show looping teasing text
         message.innerHTML = noTexts[noIndex];
         noIndex = (noIndex + 1) % noTexts.length;
 
-        // Move button slightly (not too far)
-        let currentX = noBtn.offsetLeft || window.innerWidth / 2;
-        let currentY = noBtn.offsetTop || window.innerHeight / 2;
+        const rect = noBtn.getBoundingClientRect();
+        let currentX = rect.left;
+        let currentY = rect.top;
 
-        let moveX = (Math.random() - 0.5) * 150;
-        let moveY = (Math.random() - 0.5) * 150;
+        let moveX = (Math.random() - 0.5) * 120;
+        let moveY = (Math.random() - 0.5) * 120;
 
         let newX = currentX + moveX;
         let newY = currentY + moveY;
 
-        newX = Math.max(20, Math.min(window.innerWidth - noBtn.offsetWidth - 20, newX));
-        newY = Math.max(20, Math.min(window.innerHeight - noBtn.offsetHeight - 20, newY));
+        newX = Math.max(10, Math.min(window.innerWidth - noBtn.offsetWidth - 10, newX));
+        newY = Math.max(10, Math.min(window.innerHeight - noBtn.offsetHeight - 10, newY));
 
-        noBtn.style.position = "absolute";
-        noBtn.style.left = `${newX}px`;
-        noBtn.style.top = `${newY}px`;
+        noBtn.style.position = "fixed";
+        noBtn.style.left = newX + "px";
+        noBtn.style.top = newY + "px";
 
-        // YES button grows
         yesSize += 0.15;
         yesBtn.style.transform = `scale(${yesSize})`;
     });
 
     yesBtn.addEventListener("click", () => {
         music.play();
-
-        // Remove NO button
         noBtn.style.display = "none";
 
-        // Bigger love message
         message.innerHTML = `
             <div style="font-size: 28px; line-height: 1.6;">
                 YAYYYY 💖<br><br>
@@ -189,7 +184,6 @@
             </div>
         `;
 
-        // Falling flowers
         setInterval(() => {
             const flower = document.createElement("div");
             flower.classList.add("flower");
@@ -200,7 +194,6 @@
             setTimeout(() => flower.remove(), 5000);
         }, 200);
 
-        // Show final screen
         setTimeout(() => {
             loveScreen.classList.add("show");
         }, 4000);
