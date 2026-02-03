@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Be My Valentine?</title>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(to bottom right, #ff9a9e, #fad0c4);
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+        text-align: center;
+        overflow: hidden;
+    }
+
+    h1 {
+        margin-top: 80px;
+        font-size: 2.7rem;
+        color: #fff;
+        text-shadow: 2px 2px 8px #ff4d6d;
+    }
+
+    h2 {
+        color: white;
+        margin-top: -10px;
+        font-weight: normal;
+    }
+
+    .buttons {
+        margin-top: 40px;
+        position: relative;
+        z-index: 2;
+    }
+
+    button {
+        padding: 15px 30px;
+        font-size: 18px;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        margin: 10px;
+        transition: 0.3s;
+    }
+
+    #yesBtn { background-color: #ff4d6d; color: white; }
+    #noBtn { background-color: white; color: #ff4d6d; }
+
+    button:hover { transform: scale(1.1); }
+
+    #message {
+        margin-top: 30px;
+        font-size: 22px;
+        color: white;
+        max-width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+        min-height: 60px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .flower {
+        position: fixed;
+        top: -10px;
+        font-size: 24px;
+        animation: fall linear forwards;
+        z-index: 1;
+    }
+
+    @keyframes fall {
+        to {
+            transform: translateY(110vh);
+            opacity: 0;
+        }
+    }
+
+    #loveScreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle, #ff4d6d, #c9184a);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: white;
+        font-size: 3rem;
+        flex-direction: column;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 1s ease;
+        z-index: 5;
+    }
+
+    #loveScreen.show {
+        opacity: 1;
+        pointer-events: all;
+    }
+</style>
+</head>
+
+<body>
+
+<audio id="bgMusic" loop>
+    <source src="titanic.mp3" type="audio/mpeg">
+</audio>
+
+<h1>ANII 💖</h1>
+<h2>Will You Be My Valentine?</h2>
+
+<div class="buttons">
+    <button id="yesBtn">Yes 💘</button>
+    <button id="noBtn">No 🙈</button>
+</div>
+
+<div id="message"></div>
+
+<div id="loveScreen">
+    I LOVE YOU<br>ANII 💖<br> I have a sweet song for you bacha. <br>pura sunke jana babbyyy
+    <div style="font-size:1.2rem;margin-top:20px;">
+        Forever my favorite person 🌸
+    </div>
+</div>
+
+<script>
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const message = document.getElementById("message");
+    const music = document.getElementById("bgMusic");
+    const loveScreen = document.getElementById("loveScreen");
+
+    const noTexts = [
+        "Really? 🥺",
+        "You gotta be honest darling 😏",
+        "Whattt 😳",
+        "Still a no? 😢",
+        "Oh come on babyyy 💕",
+        "It is not gonna accept a no darling 😌"
+    ];
+
+    let noIndex = 0;
+    let yesSize = 1;
+
+    noBtn.addEventListener("click", () => {
+
+        // Show looping teasing text
+        message.innerHTML = noTexts[noIndex];
+        noIndex = (noIndex + 1) % noTexts.length;
+
+        // Move button slightly (not too far)
+        let currentX = noBtn.offsetLeft || window.innerWidth / 2;
+        let currentY = noBtn.offsetTop || window.innerHeight / 2;
+
+        let moveX = (Math.random() - 0.5) * 150;
+        let moveY = (Math.random() - 0.5) * 150;
+
+        let newX = currentX + moveX;
+        let newY = currentY + moveY;
+
+        newX = Math.max(20, Math.min(window.innerWidth - noBtn.offsetWidth - 20, newX));
+        newY = Math.max(20, Math.min(window.innerHeight - noBtn.offsetHeight - 20, newY));
+
+        noBtn.style.position = "absolute";
+        noBtn.style.left = `${newX}px`;
+        noBtn.style.top = `${newY}px`;
+
+        // YES button grows
+        yesSize += 0.15;
+        yesBtn.style.transform = `scale(${yesSize})`;
+    });
+
+    yesBtn.addEventListener("click", () => {
+        music.play();
+
+        // Remove NO button
+        noBtn.style.display = "none";
+
+        // Bigger love message
+        message.innerHTML = `
+            <div style="font-size: 28px; line-height: 1.6;">
+                YAYYYY 💖<br><br>
+                ANII, you just made me the happiest person alive 🌸<br>
+                Every day with you feels like a beautiful dream I never want to wake up from.<br>
+                Thank you for being my smile, my peace, and my forever person 💕
+            </div>
+        `;
+
+        // Falling flowers
+        setInterval(() => {
+            const flower = document.createElement("div");
+            flower.classList.add("flower");
+            flower.innerHTML = "🌸";
+            flower.style.left = Math.random() * 100 + "vw";
+            flower.style.animationDuration = (Math.random() * 3 + 2) + "s";
+            document.body.appendChild(flower);
+            setTimeout(() => flower.remove(), 5000);
+        }, 200);
+
+        // Show final screen
+        setTimeout(() => {
+            loveScreen.classList.add("show");
+        }, 4000);
+    });
+</script>
+
+</body>
+</html>
